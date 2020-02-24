@@ -5,7 +5,7 @@ Uses non-persistent database in backend (aka an `array`), so lifetime of any sho
 Install:  
 `npm install`
 
-Run locally (port 3000):  
+Run locally (port `3000`):  
 `npm run server`
 
 ![URL Shortener Microservice](screenshots/screenshot.PNG?raw=true)
