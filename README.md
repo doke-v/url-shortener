@@ -8,5 +8,4 @@ Install:
 Run locally:  
 `npm run server`
 
-Screenshot:
 ![URL Shortener Microservice](screenshots/screenshot.PNG?raw=true)
