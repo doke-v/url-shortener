@@ -3,8 +3,10 @@
 Uses non-persistent database in backend (aka an `array`), so lifetime of any shortened URL is unpredictable and untrackable.
 
 Install:  
-`npm install`  
+`npm install`
+
 Run locally:  
 `npm run server`
 
 Screenshot:
+![URL Shortener Microservice](screenshots/screenshot.PNG?raw=true)
