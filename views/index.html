@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <link
+      rel="shortcut icon"
+      href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+  </head>
+  <body>
+    <section class="section">
+      <h2 class="title">URL Shortener Microservice</h2>
+      <form action="/new" method="POST" onsubmit="submitHandler(event)">
+        <div class="field is-grouped">
+            <div class="control is-expanded has-icons-left">
+              <input class="input is-info" type="text" id="url_input"
+              placeholder="https://www.example.com/"
+              name="url">
+              <span class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+              </span>
+            </div>
+            <button class="button">SHORTEN</button>
+          </div>
+          <p class="help is-danger" id="error-text"></p>
+      </form>
+    </div>
+    <form id="results" onsubmit="event.preventDefault();">
+        <label class="label has-text-success">🎉 HERE YOU GO 🎉</label>
+        <div class="field is-grouped">
+            <div class="control is-expanded">
+                <input id="url_output" class="input is-success" type="text" id="url_input"
+                value="https://delfi.ee"
+                placeholder="https://www.example.com/"
+                name="url">
+              </div>
+              <button id="copy" class="button">COPY 📋</button>
+            <!-- <input id="url_output" class="input is-success" type="text"/>
+            <input type="submit" class="button" value="COPY 📋" id="copy" /> -->
+        </div>
+    </form>
+    </section>
+    <script>
+      const input = document.getElementById('url_input');
+      const results = document.getElementById('results');
+      const errorText = document.getElementById('error-text');
+
+      const copy = document.getElementById('copy');
+
+      const submitHandler = ev => {
+        ev.preventDefault();
+        fetch('/new', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ url: input.value })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) throw Error(data.error);
+            showResults(data);
+          })
+          .catch(err => {
+            showError(err);
+          });
+        input.value = '';
+      };
+      const showResults = data => {
+        const output = document.getElementById('url_output');
+        errorText.innerHTML = "";
+        results.style.display = 'block';
+        output.value = window.location.href + data.short_url;
+        copy.innerHTML = 'COPY 📋';
+      };
+      const showError = err => {
+        const output = document.getElementById('error_output');
+        results.style.display = 'none';
+        console.log(errorText);
+        errorText.innerHTML = err;
+      };
+      copy.addEventListener('click', e => {
+        const output = document.getElementById('url_output');
+        const dummy = document.createElement('input');
+        dummy.value = output.value;
+        document.body.appendChild(dummy);
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        copy.innerHTML = 'COPY ✔️';
+      });
+    </script>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>URL Shortener Microservice</strong> by
+          <a href="https://janar.me">Janar</a>. The source code is
+          licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+          website content is licensed
+          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+            >CC BY NC SA 4.0</a
+          >.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
