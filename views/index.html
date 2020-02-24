@@ -103,7 +103,12 @@
         document.execCommand('copy');
         document.body.removeChild(dummy);
         copy.innerHTML = 'COPY ✔️';
+        clearTimeout(window.copyTimer)
+        window.copyTimer = setTimeout(()=>{
+          copy.innerHTML = 'COPY 📋';
+        }, 500)
       });
+
     </script>
     <footer class="footer">
       <div class="has-text-centered">
