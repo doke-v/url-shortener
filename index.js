@@ -17,7 +17,7 @@ router.post('/new', (req, res) => {
   const valid = isURL(original_url);
 
   if (!valid) {
-    return res.status(404).json({ error: 'invalid URL' });
+    return res.status(400).json({ error: 'invalid URL' });
   } else {
     const obj = { original_url, short_url: shortid.generate() };
     db.push(obj);

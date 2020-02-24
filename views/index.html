@@ -5,7 +5,7 @@
     <title>URL Shortener</title>
     <link
       rel="shortcut icon"
-      href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico"
+      href="favicon.ico"
       type="image/x-icon"
     />
     <link
@@ -17,15 +17,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
     />
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    
     <script
       defer
       src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
     ></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <section class="section">
-      <h2 class="title">URL Shortener Microservice</h2>
+      <h2 class="title"><i class="fas fa-globe"></i> URL Shortener Microservice <i class="fas fa-globe"></i></h2>
+      <h2 class="subtitle">non-persistent database, zero tracking</h2>
       <form action="/new" method="POST" onsubmit="submitHandler(event)">
         <div class="field is-grouped">
             <div class="control is-expanded has-icons-left">
@@ -36,9 +38,9 @@
                 <i class="fas fa-globe"></i>
               </span>
             </div>
-            <button class="button">SHORTEN</button>
+            <button class="button">SHORTEN ✂️</button>
           </div>
-          <p class="help is-danger" id="error-text"></p>
+          <p class="help is-danger is-size-6" id="error-text"></p>
       </form>
     </div>
     <form id="results" onsubmit="event.preventDefault();">
@@ -46,13 +48,10 @@
         <div class="field is-grouped">
             <div class="control is-expanded">
                 <input id="url_output" class="input is-success" type="text" id="url_input"
-                value="https://delfi.ee"
                 placeholder="https://www.example.com/"
                 name="url">
               </div>
               <button id="copy" class="button">COPY 📋</button>
-            <!-- <input id="url_output" class="input is-success" type="text"/>
-            <input type="submit" class="button" value="COPY 📋" id="copy" /> -->
         </div>
     </form>
     </section>
@@ -60,12 +59,12 @@
       const input = document.getElementById('url_input');
       const results = document.getElementById('results');
       const errorText = document.getElementById('error-text');
-
       const copy = document.getElementById('copy');
+      const optionalSlash = window.location.href.endsWith("/")?"":"/"
 
       const submitHandler = ev => {
         ev.preventDefault();
-        fetch('/new', {
+        fetch(window.location.href + optionalSlash + 'new', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -86,13 +85,13 @@
         const output = document.getElementById('url_output');
         errorText.innerHTML = "";
         results.style.display = 'block';
-        output.value = window.location.href + data.short_url;
+        
+        output.value = window.location.href + optionalSlash + data.short_url;
         copy.innerHTML = 'COPY 📋';
       };
       const showError = err => {
         const output = document.getElementById('error_output');
         results.style.display = 'none';
-        console.log(errorText);
         errorText.innerHTML = err;
       };
       copy.addEventListener('click', e => {
@@ -107,16 +106,10 @@
       });
     </script>
     <footer class="footer">
-      <div class="content has-text-centered">
+      <div class="has-text-centered">
         <p>
           <strong>URL Shortener Microservice</strong> by
-          <a href="https://janar.me">Janar</a>. The source code is
-          licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
-          website content is licensed
-          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-            >CC BY NC SA 4.0</a
-          >.
+          <a href="https://janar.me">Janar</a>. Link to source: <a href="https://github.com/tuhnik/url-shortener">github.com/tuhnik/url-shortener
         </p>
       </div>
     </footer>
