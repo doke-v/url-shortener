@@ -2,8 +2,15 @@
 
 html {
   height: 100%;
+  font-size: 100%;
   display: flex;
   justify-content: center;
+}
+
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 125%;
+  }
 }
 
 body {
@@ -19,11 +26,6 @@ body {
 
 section {
   flex: 1;
-}
-
-h3,
-h2 {
-  margin-top: 30px;
 }
 
 .footer {
@@ -70,10 +72,4 @@ label.has-text-success {
 
 .button {
   font-weight: 600;
-}
-
-@media only screen and (min-width: 768px) {
-  html {
-    font-size: 1.4rem;
-  }
 }
